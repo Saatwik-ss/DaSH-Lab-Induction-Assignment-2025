@@ -33,5 +33,9 @@ $$
 \text{col} = \text{blockIdx.x} \times \text{blockDim.x} + \text{threadIdx.x}
 $$
 
-Since, 2D matrices are stored as flattened arrays in GPU, so this formula works.
+Since 2D matrices are flattned in GPU, this formula works.
+
+
+
 ---
+
