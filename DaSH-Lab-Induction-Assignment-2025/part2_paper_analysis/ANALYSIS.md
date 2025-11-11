@@ -103,6 +103,11 @@ Another strong point is that the paper does not rely on hardware-specific tricks
 
 One limitation is that vLLM’s design assumes a high-speed connection between GPU and CPU memory. Swapping blocks to CPU RAM could become a bottleneck on slower interconnects or multi-node setups. Another limitation is the increase in code complexity. Managing block tables, reference counts, and copy-on-write logic introduces many moving parts that make the system harder to maintain or extend. There is also a small compute overhead in the attention kernel caused by additional block-table lookups.
 
+
+Plus when the model serves large models, with short sequence datasets, the memory fragemntations is less of a bottleneck mking itsystem compute bound rather than memory bound, making it less pronounced.
+
+There is alos a performance overhead due to an extra step of finding the physical block location.
+
 The evaluation focuses mainly on transformer-based LLMs and assumes autoregressive decoding. The system’s applicability to other architectures or non-text tasks is unclear. While the authors show scaling on larger models, they do not analyze how the paging mechanism interacts with model parallelism beyond tensor parallelism.
 
 ---
@@ -149,5 +154,6 @@ What really clicked for me is how the authors saw the KV cache problem not as a 
 The architecture feels scalable and practical, though I do think implementing it from scratch would be extremely challenging because of the amount of coordination needed between CUDA kernels, memory allocators, and schedulers.
 
 Overall, vLLM feels like a bridge between deep learning and operating systems, it uses traditional system design principles to fix what is otherwise seen as a deep learning bottleneck. It’s one of those works where the elegance is in how simple the final idea is once you see it: break the KV cache into pages, allocate on demand, and stop wasting memory. Simple, but genius.
+
 
 
