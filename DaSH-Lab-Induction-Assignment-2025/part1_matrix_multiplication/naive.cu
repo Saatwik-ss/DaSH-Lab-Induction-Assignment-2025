@@ -1,32 +1,7 @@
-<<<<<<< Updated upstream
-#include <cuda_runtime.h>
-
-__global__ void matrix_multiplication_kernel(const float* A, const float* B, float* C, int M, int N, int K) {
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
-
-    if (row < M && col < K) {
-        float value = 0.0f;
-        for (int i = 0; i < N; i++) {
-            value += A[row * N + i] * B[i * K + col];
-        }
-        C[row * K + col] = value;
-    }
-}
-
-// A, B, C are device pointers (i.e. pointers to memory on the GPU)
-extern "C" void solve(const float* A, const float* B, float* C, int M, int N, int K) {
-    dim3 threadsPerBlock(16, 16);
-    dim3 blocksPerGrid((K + threadsPerBlock.x - 1) / threadsPerBlock.x,
-                       (M + threadsPerBlock.y - 1) / threadsPerBlock.y);
-
-    matrix_multiplication_kernel<<<blocksPerGrid, threadsPerBlock>>>(A, B, C, M, N, K);
-    cudaDeviceSynchronize();
-}
-=======
 #include <iostream>
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
+
 
 #define N 1024  // 
 
@@ -105,4 +80,3 @@ int main() {
 
 //nvcc -O3 -lcublas -arch=sm_75 matrix_mul_compare.cu -o matrix_mul_compare
 //./matrix_mul_compare
->>>>>>> Stashed changes
