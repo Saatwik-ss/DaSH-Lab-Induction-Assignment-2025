@@ -1,3 +1,9 @@
+# Background:
+I have worked on modifying(not fully writing) CUDA kernels for SAiDL and have practiced some questions on LEETGPU, so i had some experience in reading and filling the code but not fully writing kernels from scratch.
+---
+
+
+
 # Naive CUDA Matrix Multiplication
 
 ## 1. Objective
@@ -48,6 +54,7 @@ Th einitial profiling was very poor and had certain issues inlcuding no kernels 
 
 
 ---
+
 
 
 
