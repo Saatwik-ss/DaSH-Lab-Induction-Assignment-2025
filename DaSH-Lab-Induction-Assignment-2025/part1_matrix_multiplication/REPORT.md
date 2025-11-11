@@ -112,4 +112,6 @@ Global memory bandwidth usage is close to saturation.
 CuBlas testing showed it having around 420 FLOPS, which appears lesser than expected, however with that baseline, Tiled version acheives about: $90%$ effeciency as that of CuBlas which seems wrong. I'll however try to achieve actually realistic results with CuBlas and find better baseline. 
 
 
+<img width="1748" height="949" alt="image" src="https://github.com/user-attachments/assets/37353431-1a5c-45ef-acaf-9feff7eb2a0c" />
+
 
