@@ -2,7 +2,10 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 #define N 1024  // 
 
 
