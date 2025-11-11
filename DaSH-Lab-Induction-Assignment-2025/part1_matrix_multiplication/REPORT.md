@@ -39,13 +39,16 @@ Since 2D matrices are flattned in GPU, this formula works.
 
 Switched order of x and y threads over rows and columns.
 
-<img width="1325" height="72" alt="image" src="https://github.com/user-attachments/assets/a20d24f7-5e94-46c7-9a2a-d22f0627f643" />
 
-Got this while even testing for performance after failing the multiplication task quite a few times.
+<img width="934" height="468" alt="image" src="https://github.com/user-attachments/assets/280a4852-6ff4-471a-9e92-438938b5c27e" />
+
+
+Th einitial profiling was very poor and had certain issues inlcuding no kernels being profiled.
 
 
 
 ---
+
 
 
 
