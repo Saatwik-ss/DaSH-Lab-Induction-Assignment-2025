@@ -4,6 +4,8 @@ While understanding the paper was not very difficult, trying to truly piece toge
 
 Initially, I planned to go through the source code of vLLM itself to better understand it. However, the codebase was quite complex and modularized to a point that reading one file didn’t give me much clarity without tracing several others. It felt a bit like trying to understand an OS kernel, every function depended on another layer of abstraction. So I focused instead on dissecting the key ideas from the paper and understanding how the memory management works conceptually rather than implementation-wise.
 
+Also used this video for understanding [https://www.youtube.com/watch?v=glyu_nQH0yw](LINK)
+
 ---
 
 ## PagedAttention
@@ -147,4 +149,5 @@ What really clicked for me is how the authors saw the KV cache problem not as a 
 The architecture feels scalable and practical, though I do think implementing it from scratch would be extremely challenging because of the amount of coordination needed between CUDA kernels, memory allocators, and schedulers.
 
 Overall, vLLM feels like a bridge between deep learning and operating systems, it uses traditional system design principles to fix what is otherwise seen as a deep learning bottleneck. It’s one of those works where the elegance is in how simple the final idea is once you see it: break the KV cache into pages, allocate on demand, and stop wasting memory. Simple, but genius.
+
 
