@@ -151,7 +151,22 @@ registers have low memory, but performance increased with TILE = 8, and decrease
 
 ## Efficiency:
 Register blocking gives another clear jump. Threads compute multiple outputs at once, reusing values directly from registers, the fastest memory on the GPU.
-It achieves ~7.7% of cuBLAS, meaning nearly double the efficiency of the naive kernel, and is the first to approach a compute-dominated regime.
+It achieves ~7.7% of cuBLAS, meaning nearly double the efficiency of the naive kernel, and is the first to approach that might be in compute-dominated regime.
+
+
+---
+## Tiled Register Blocking:
+Implemented the Register blocking method on the Tiled implementation instead of doing it on Naive implementation. very similar in implementation.
+
+
+## Efficiency:
+
+This version dramatically improves throughput, roughly 6.9x faster than the naive kernel and achieving ~29 % of cuBLAS performance.
+Improvements came from actually implementing the idea along with Tiling.
+
+It achieved **Register-blocked: 1.3339 ms  1609.98 GFLOPS** results. Unfortunately i was unable to run any kind of profiler in my machine due to being stuck in version hell.
+
+
 
 
 
