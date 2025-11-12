@@ -58,7 +58,16 @@ It was also noticed that usage of correct architecture gave number of FLOPS an i
 
 ### Bottleneck:
 
-The kernel shows a clear memory bandwidth bottleneck. About 68% of GPU time (≈9.17 ms) is spent inside matrixMulNaive, while global memory transfers (HtoD + DtoH) take another ~6 ms. Each thread performs N³ = 1024³ ≈ 1.07×10⁹ multiply-adds but also issues roughly 2×N³ = 2.1×10⁹ global memory reads/writes with almost no data reuse. The achieved throughput is ~230 GFLOPS, only around 55% of cuBLAS peak on a T4 GPU. The non-coalesced column access to matrix B and lack of shared-memory tiling make it heavily memory-bound rather than compute-bound.
+The kernel shows a clear memory bandwidth bottleneck. About 68% of GPU time (≈9.17 ms) is spent inside matrixMulNaive, while global memory transfers (HtoD + DtoH) take another ~6 ms. Each thread performs N³ = 1024³ ≈ 1.07×10⁹ multiply-adds but also issues roughly 2×N³ = 2.1×10⁹ global memory reads/writes with almost no data reuse. The achieved throughput is ~230 GFLOPS, only around 55% of cuBLAS peak on a T4 GPU in colab. The non-coalesced column access to matrix B and lack of shared-memory tiling makes it heavily memory-bound rather than compute-bound.
+
+
+After testing CuBlas on my local machine, CuBLas acheived,
+
+**Time: 0.3807 ms**
+
+**cuBLAS SGEMM GFLOPS: 5640.88**
+
+That makes my effeciency to be around 4% of max cuBLAS efficiency .
 
      
 ---
@@ -115,9 +124,26 @@ Global memory bandwidth usage is close to saturation.
 CuBlas testing showed it having around 420 FLOPS, which appears lesser than expected, however with that baseline, Tiled version acheives about: $90%$ effeciency as that of CuBlas which seems wrong. I'll however try to achieve actually realistic results with CuBlas and find better baseline. 
 
 
+
+
 <img width="1748" height="949" alt="image" src="https://github.com/user-attachments/assets/37353431-1a5c-45ef-acaf-9feff7eb2a0c" />
+---
+
+## Register Blocking:
+
+After implementing shared-memory tiling, the next attempt was to squeeze a bit less time doing the memory transfer. I tried to read some other methods to acheive this and saw about Register blocking, it wokrs by optimizing register reuse essentially, reducing shared memory and global memory traffic even further. The idea is to let each thread compute multiple elements of the output tile for example, a 2x2 or 4x4 sub-block(I used 8x8), rather than just one. This technique is known as register blocking, where a small portion of matrix C is kept in registers during the accumulation phase.
+
+The register file in each SM is extremely fast, several times faster than shared memory and reusing data within registers drastically improves arithmetic intensity (the ratio of computation to memory access). The aim was to reduce memory bottlenecks that still persisted in the tiled version
 
 
+## Mathematical background:
+The core formula remains identical, The difference lies entirely in how the computations are batched per thread.
+Instead of each thread computing a single $C[i][j]$, each thread now computes multiple neighboring output elements, say $C[i][j], C[i][j+1], C[i+1][j], and C[i+1][j+1]$, in one go.
 
+
+## Implementation:
+Just an added layer on Naive implementation with synchronisation of threads , this time the implementation actually went smoother.
+Since i was adding it on the Naive portion, using 2x2 4x4 tiles actually reduced the time and GFLOPS of the process, i was afraid to increase the load as 
+registers have low memory, but performance increased with TILE = 8, and decreased with TILE = 8.
 
 
