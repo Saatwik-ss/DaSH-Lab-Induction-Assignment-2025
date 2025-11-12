@@ -169,4 +169,6 @@ It achieved **Register-blocked: 1.3339 ms  1609.98 GFLOPS** results. Unfortunat
 
 
 
+<img width="1244" height="749" alt="image" src="https://github.com/user-attachments/assets/f55b8885-366b-45cd-a55d-626b77622d8e" />
+
 
